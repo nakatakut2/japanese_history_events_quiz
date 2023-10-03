@@ -1,6 +1,6 @@
 {
   "name": "japanese_history_events_quiz",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "日本史の年表クイズ. Quiz on Japanese History. You will be presented with a year, and you select the correct event for that year from four options.",
   "main": "index.js",
   "bin": {
