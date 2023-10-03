@@ -32,7 +32,7 @@ const main = async () => {
     const answeredPeriod = await question(
       "period",
       "どの時代に挑戦する？\n",
-      periodNamesArray
+      periodNamesArray,
     );
     console.log(""); // 見やすさのために空行を入れる
 
@@ -46,7 +46,7 @@ const main = async () => {
     }
 
     const selectedPeriod = periodsArray.find(
-      (item) => item.name === answeredPeriod.period.split(" (")[0]
+      (item) => item.name === answeredPeriod.period.split(" (")[0],
     );
     startQuizFlow(selectedPeriod.events.length, selectedPeriod.events);
   }
@@ -56,7 +56,7 @@ const main = async () => {
     const answeredPeriod = await question(
       "period",
       "どの時代の年表を見る？\n",
-      periodNamesArray
+      periodNamesArray,
     );
 
     if (answeredPeriod.period === `全部 ( ${totalCount} 項目)`) {
@@ -70,7 +70,7 @@ const main = async () => {
     }
 
     const selectedPeriod = periodsArray.find(
-      (item) => item.name === answeredPeriod.period.split(" (")[0]
+      (item) => item.name === answeredPeriod.period.split(" (")[0],
     );
     console.log(`\n【${selectedPeriod.name}】`);
     for (const event of selectedPeriod.events) {
