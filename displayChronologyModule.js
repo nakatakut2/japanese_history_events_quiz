@@ -4,13 +4,13 @@ export const displayChronology = async (
   answeredMode,
   periodNamesArray,
   totalCount,
-  periodsArray
+  periodsArray,
 ) => {
   if (answeredMode.mode === "年表を見る") {
     const answeredPeriod = await question(
       "period",
       "どの時代の年表を見る？\n",
-      periodNamesArray
+      periodNamesArray,
     );
 
     if (answeredPeriod.period === `全部 ( ${totalCount} 項目)`) {
@@ -24,7 +24,7 @@ export const displayChronology = async (
     }
 
     const selectedPeriod = periodsArray.find(
-      (item) => item.name === answeredPeriod.period.split(" (")[0]
+      (item) => item.name === answeredPeriod.period.split(" (")[0],
     );
     console.log(`\n【${selectedPeriod.name}】`);
     for (const event of selectedPeriod.events) {

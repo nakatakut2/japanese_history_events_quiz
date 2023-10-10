@@ -7,13 +7,13 @@ export const tryQuiz = async (
   answeredMode,
   periodNamesArray,
   totalCount,
-  periodsArray
+  periodsArray,
 ) => {
   if (answeredMode.mode === "クイズに挑戦する") {
     const answeredPeriod = await question(
       "period",
       "どの時代に挑戦する？\n",
-      periodNamesArray
+      periodNamesArray,
     );
     console.log(""); // 見やすさのために空行を入れる
 
@@ -24,12 +24,12 @@ export const tryQuiz = async (
     }
 
     const selectedPeriod = periodsArray.find(
-      (item) => item.name === answeredPeriod.period.split(" (")[0]
+      (item) => item.name === answeredPeriod.period.split(" (")[0],
     );
     startQuizFlow(
       selectedPeriod.events.length,
       selectedPeriod.events,
-      periodsArray
+      periodsArray,
     );
   }
 };
@@ -39,7 +39,7 @@ const startQuizFlow = async (count, events, periodsArray) => {
   const sequenceAnswer = await question(
     "sequence",
     "クイズの順番を選んでね\n",
-    ["最初から順番に", "回数を決めてランダムに"]
+    ["最初から順番に", "回数を決めてランダムに"],
   );
   console.log(""); // 見やすさのために空行を入れる
 
@@ -67,13 +67,13 @@ const processQuiz = async (count, events, periodsArray) => {
 
     // 出題に対する回答の選択肢を、同じ時代の中から取得する
     const applicablePeriod = periodsArray.find((period) =>
-      period.events.some((event) => event.year === questionYear)
+      period.events.some((event) => event.year === questionYear),
     );
 
     const choices = [];
     choices.push(questionEvent);
     const other = applicablePeriod.events.filter(
-      (item) => item.event !== questionEvent
+      (item) => item.event !== questionEvent,
     );
     choices.push(...lodash.sampleSize(other, 3).map((item) => item.event));
 
@@ -81,7 +81,7 @@ const processQuiz = async (count, events, periodsArray) => {
     const answeredEvent = await question(
       "event",
       ` ${questionYear} の出来事は？ ( ${i + 1} / ${count} 問目)\n`,
-      shuffledChoices
+      shuffledChoices,
     );
 
     if (answeredEvent.event === questionEvent) {
@@ -89,7 +89,7 @@ const processQuiz = async (count, events, periodsArray) => {
       console.log("\n正解 ♪ (´▽｀)\n\n");
     } else {
       console.log(
-        `\n残念 (´△｀)  正解は ${chalk.red(questionEvent)} でした！\n\n`
+        `\n残念 (´△｀)  正解は ${chalk.red(questionEvent)} でした！\n\n`,
       );
     }
   }
@@ -97,7 +97,7 @@ const processQuiz = async (count, events, periodsArray) => {
   const correctRate = Math.floor((correct / count) * 100);
   console.log(
     `正解数は ${chalk.green(count)} 問中 ${chalk.green(
-      correct
-    )} 問！  正解率は ${chalk.green(correctRate)} %！\nまた挑戦してね ♪`
+      correct,
+    )} 問！  正解率は ${chalk.green(correctRate)} %！\nまた挑戦してね ♪`,
   );
 };
