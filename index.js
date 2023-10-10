@@ -7,27 +7,19 @@ import { fileURLToPath } from "node:url";
 import { question } from "./questionModule.js";
 import { startQuizFlow } from "./quizModule.js";
 
-const main = async () => {
+const readChronology = () => {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
   const json = fs.readFileSync(`${__dirname}/chronology.json`, "utf8");
-  const periodsArray = JSON.parse(json);
+  return JSON.parse(json);
+};
 
-  const answeredMode = await question("mode", "モードを選んでね\n", [
-    "クイズに挑戦する",
-    "年表を見る",
-  ]);
-  console.log(""); // 見やすさのために空行を入れる
-
-  let totalCount = 0;
-  const periodNamesArray = [];
-  for (const period of periodsArray) {
-    totalCount += period.events.length;
-    periodNamesArray.push(`${period.name} ( ${period.events.length} 項目)`);
-  }
-  periodNamesArray.push(`全部 ( ${totalCount} 項目)`);
-
-  // 【４択クイズ】
+const tryQuiz = async (
+  answeredMode,
+  periodNamesArray,
+  totalCount,
+  periodsArray
+) => {
   if (answeredMode.mode === "クイズに挑戦する") {
     const answeredPeriod = await question(
       "period",
@@ -51,8 +43,14 @@ const main = async () => {
       periodsArray
     );
   }
+};
 
-  // 【年表】
+const displayChonology = async (
+  answeredMode,
+  periodNamesArray,
+  totalCount,
+  periodsArray
+) => {
   if (answeredMode.mode === "年表を見る") {
     const answeredPeriod = await question(
       "period",
@@ -78,6 +76,26 @@ const main = async () => {
       console.log(`${event.year}  ${event.event}`);
     }
   }
+};
+
+const main = async () => {
+  const periodsArray = readChronology();
+  const answeredMode = await question("mode", "モードを選んでね\n", [
+    "クイズに挑戦する",
+    "年表を見る",
+  ]);
+  console.log(""); // 見やすさのために空行を入れる
+
+  let totalCount = 0;
+  const periodNamesArray = [];
+  for (const period of periodsArray) {
+    totalCount += period.events.length;
+    periodNamesArray.push(`${period.name} ( ${period.events.length} 項目)`);
+  }
+  periodNamesArray.push(`全部 ( ${totalCount} 項目)`);
+
+  tryQuiz(answeredMode, periodNamesArray, totalCount, periodsArray);
+  displayChonology(answeredMode, periodNamesArray, totalCount, periodsArray);
 };
 
 main();
