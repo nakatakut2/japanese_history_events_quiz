@@ -5,77 +5,14 @@ import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { question } from "./questionModule.js";
-import { startQuizFlow } from "./quizModule.js";
+import { tryQuiz } from "./quizModule.js";
+import { displayChronology } from "./displayChronologyModule.js";
 
 const readChronology = () => {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
   const json = fs.readFileSync(`${__dirname}/chronology.json`, "utf8");
   return JSON.parse(json);
-};
-
-const tryQuiz = async (
-  answeredMode,
-  periodNamesArray,
-  totalCount,
-  periodsArray
-) => {
-  if (answeredMode.mode === "クイズに挑戦する") {
-    const answeredPeriod = await question(
-      "period",
-      "どの時代に挑戦する？\n",
-      periodNamesArray
-    );
-    console.log(""); // 見やすさのために空行を入れる
-
-    if (answeredPeriod.period === `全部 ( ${totalCount} 項目)`) {
-      const allEvents = periodsArray.map((period) => period.events).flat();
-      startQuizFlow(totalCount, allEvents, periodsArray);
-      return;
-    }
-
-    const selectedPeriod = periodsArray.find(
-      (item) => item.name === answeredPeriod.period.split(" (")[0]
-    );
-    startQuizFlow(
-      selectedPeriod.events.length,
-      selectedPeriod.events,
-      periodsArray
-    );
-  }
-};
-
-const displayChonology = async (
-  answeredMode,
-  periodNamesArray,
-  totalCount,
-  periodsArray
-) => {
-  if (answeredMode.mode === "年表を見る") {
-    const answeredPeriod = await question(
-      "period",
-      "どの時代の年表を見る？\n",
-      periodNamesArray
-    );
-
-    if (answeredPeriod.period === `全部 ( ${totalCount} 項目)`) {
-      for (const period of periodsArray) {
-        console.log(`\n【${period.name}】`);
-        for (const event of period.events) {
-          console.log(`${event.year}  ${event.event}`);
-        }
-      }
-      return;
-    }
-
-    const selectedPeriod = periodsArray.find(
-      (item) => item.name === answeredPeriod.period.split(" (")[0]
-    );
-    console.log(`\n【${selectedPeriod.name}】`);
-    for (const event of selectedPeriod.events) {
-      console.log(`${event.year}  ${event.event}`);
-    }
-  }
 };
 
 const main = async () => {
@@ -95,7 +32,7 @@ const main = async () => {
   periodNamesArray.push(`全部 ( ${totalCount} 項目)`);
 
   tryQuiz(answeredMode, periodNamesArray, totalCount, periodsArray);
-  displayChonology(answeredMode, periodNamesArray, totalCount, periodsArray);
+  displayChronology(answeredMode, periodNamesArray, totalCount, periodsArray);
 };
 
 main();

@@ -3,8 +3,39 @@ import lodash from "lodash";
 
 import { question, inputAnswerCount } from "./questionModule.js";
 
+export const tryQuiz = async (
+  answeredMode,
+  periodNamesArray,
+  totalCount,
+  periodsArray
+) => {
+  if (answeredMode.mode === "クイズに挑戦する") {
+    const answeredPeriod = await question(
+      "period",
+      "どの時代に挑戦する？\n",
+      periodNamesArray
+    );
+    console.log(""); // 見やすさのために空行を入れる
+
+    if (answeredPeriod.period === `全部 ( ${totalCount} 項目)`) {
+      const allEvents = periodsArray.map((period) => period.events).flat();
+      startQuizFlow(totalCount, allEvents, periodsArray);
+      return;
+    }
+
+    const selectedPeriod = periodsArray.find(
+      (item) => item.name === answeredPeriod.period.split(" (")[0]
+    );
+    startQuizFlow(
+      selectedPeriod.events.length,
+      selectedPeriod.events,
+      periodsArray
+    );
+  }
+};
+
 // 通しで出題か、ランダムで出題か(問題数選択可)
-export const startQuizFlow = async (count, events, periodsArray) => {
+const startQuizFlow = async (count, events, periodsArray) => {
   const sequenceAnswer = await question(
     "sequence",
     "クイズの順番を選んでね\n",
