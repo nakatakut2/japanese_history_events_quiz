@@ -8,7 +8,7 @@ export const startQuizFlow = async (count, events) => {
   const sequenceAnswer = await question(
     "sequence",
     "クイズの順番を選んでね\n",
-    ["最初から順番に", "回数を決めてランダムに"],
+    ["最初から順番に", "回数を決めてランダムに"]
   );
   console.log(""); // 見やすさのために空行を入れる
 
@@ -36,12 +36,12 @@ const processQuiz = async (count, events) => {
 
     // 出題に対する回答の選択肢を、同じ時代の中から取得する
     const applicableEvents = events.filter(
-      (item) => item.period === questionYearEvent.period,
+      (item) => item.period === questionYearEvent.period
     );
-    let choices = [];
+    const choices = [];
     choices.push(questionEvent);
     const other = applicableEvents.filter(
-      (item) => item.event !== questionEvent,
+      (item) => item.event !== questionEvent
     );
     choices.push(...lodash.sampleSize(other, 3).map((item) => item.event));
 
@@ -49,7 +49,7 @@ const processQuiz = async (count, events) => {
     const answeredEvent = await question(
       "event",
       ` ${questionYear} の出来事は？ ( ${i + 1} / ${count} 問目)\n`,
-      shuffledChoices,
+      shuffledChoices
     );
 
     if (answeredEvent.event === questionEvent) {
@@ -57,7 +57,7 @@ const processQuiz = async (count, events) => {
       console.log("\n正解 ♪ (´▽｀)\n\n");
     } else {
       console.log(
-        `\n残念 (´△｀)  正解は ${chalk.red(questionEvent)} でした！\n\n`,
+        `\n残念 (´△｀)  正解は ${chalk.red(questionEvent)} でした！\n\n`
       );
     }
   }
@@ -65,7 +65,7 @@ const processQuiz = async (count, events) => {
   const correctRate = Math.floor((correct / count) * 100);
   console.log(
     `正解数は ${chalk.green(count)} 問中 ${chalk.green(
-      correct,
-    )} 問！  正解率は ${chalk.green(correctRate)} %！\nまた挑戦してね ♪`,
+      correct
+    )} 問！  正解率は ${chalk.green(correctRate)} %！\nまた挑戦してね ♪`
   );
 };
