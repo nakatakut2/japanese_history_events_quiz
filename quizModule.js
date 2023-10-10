@@ -4,7 +4,7 @@ import lodash from "lodash";
 import { question, inputAnswerCount } from "./questionModule.js";
 
 // 通しで出題か、ランダムで出題か(問題数選択可)
-export const startQuizFlow = async (count, events) => {
+export const startQuizFlow = async (count, events, periodsArray) => {
   const sequenceAnswer = await question(
     "sequence",
     "クイズの順番を選んでね\n",
@@ -22,10 +22,10 @@ export const startQuizFlow = async (count, events) => {
     decidedEvents = lodash.shuffle(events);
   }
 
-  processQuiz(decidedCount, decidedEvents);
+  processQuiz(decidedCount, decidedEvents, periodsArray);
 };
 
-const processQuiz = async (count, events) => {
+const processQuiz = async (count, events, periodsArray) => {
   console.log("日本史クイズ スタート！！\n");
   let correct = 0;
 
@@ -35,12 +35,13 @@ const processQuiz = async (count, events) => {
     const questionEvent = questionYearEvent.event;
 
     // 出題に対する回答の選択肢を、同じ時代の中から取得する
-    const applicableEvents = events.filter(
-      (item) => item.period === questionYearEvent.period
+    const applicablePeriod = periodsArray.find((period) =>
+      period.events.some((event) => event.year === questionYear)
     );
+
     const choices = [];
     choices.push(questionEvent);
-    const other = applicableEvents.filter(
+    const other = applicablePeriod.events.filter(
       (item) => item.event !== questionEvent
     );
     choices.push(...lodash.sampleSize(other, 3).map((item) => item.event));

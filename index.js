@@ -38,14 +38,18 @@ const main = async () => {
 
     if (answeredPeriod.period === `全部 ( ${totalCount} 項目)`) {
       const allEvents = periodsArray.map((period) => period.events).flat();
-      startQuizFlow(totalCount, allEvents);
+      startQuizFlow(totalCount, allEvents, periodsArray);
       return;
     }
 
     const selectedPeriod = periodsArray.find(
       (item) => item.name === answeredPeriod.period.split(" (")[0]
     );
-    startQuizFlow(selectedPeriod.events.length, selectedPeriod.events);
+    startQuizFlow(
+      selectedPeriod.events.length,
+      selectedPeriod.events,
+      periodsArray
+    );
   }
 
   // 【年表】
