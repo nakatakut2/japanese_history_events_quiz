@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import lodash from "lodash";
+import { setTimeout } from "timers/promises";
 
 import { question, inputAnswerCount } from "./questionModule.js";
 
@@ -92,6 +93,7 @@ const processQuiz = async (count, events, periodsArray) => {
         `\n残念 (´△｀)  正解は ${chalk.red(questionEvent)} でした！\n\n`,
       );
     }
+    await setTimeout(500);
   }
 
   const correctRate = Math.floor((correct / count) * 100);
