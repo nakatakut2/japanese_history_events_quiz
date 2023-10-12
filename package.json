@@ -1,0 +1,39 @@
+{
+  "name": "japanese_history_events_quiz",
+  "version": "1.0.0",
+  "description": "日本史の年表クイズ. Quiz on Japanese History. You will be presented with a year, and you select the correct event for that year from four options.",
+  "main": "index.js",
+  "bin": {
+    "japanese_history_events_quiz": "./index.js"
+  },
+  "scripts": {
+    "fix": "prettier --write . && eslint --fix .",
+    "lint": "prettier --check . && eslint ."
+  },
+  "keywords": [
+    "japanese",
+    "history",
+    "quiz"
+  ],
+  "author": "nakatakut2",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nakatakut2/japanese_history_events_quiz.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nakatakut2/japanese_history_events_quiz/issues"
+  },
+  "homepage": "https://github.com/nakatakut2/japanese_history_events_quiz#readme",
+  "devDependencies": {
+    "eslint": "^8.50.0",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.0.3"
+  },
+  "type": "module",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "inquirer": "^9.2.11",
+    "lodash": "^4.17.21"
+  }
+}
